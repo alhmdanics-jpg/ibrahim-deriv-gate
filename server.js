@@ -441,6 +441,76 @@ app.get(
 
   }
 );
+app.get(
+  "/api/bot-auth",
+  async (req, res) => {
+
+    try {
+
+      const session = getSession(req);
+
+      if (!session) {
+        return res
+          .status(401)
+          .json({
+            error: "Not authenticated"
+          });
+      }
+
+      const accessToken =
+        session.tokenData?.access_token;
+
+      if (!accessToken) {
+        return res
+          .status(401)
+          .json({
+            error: "Missing Deriv access token"
+          });
+      }
+
+      const response =
+        await fetch(
+          "https://api.derivws.com/oauth2/legacy/tokens",
+          {
+            method: "POST",
+
+            headers: {
+              Authorization:
+                `Bearer ${accessToken}`
+            }
+          }
+        );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        return res
+          .status(502)
+          .json({
+            error:
+              "Failed to get Deriv bot tokens",
+            details: data
+          });
+      }
+
+      return res.json(data);
+
+    } catch (error) {
+
+      return res
+        .status(500)
+        .json({
+          error:
+            "Bot authentication error",
+          details:
+            error.message
+        });
+
+    }
+
+  }
+);
 
 
 app.post(
