@@ -471,7 +471,7 @@ app.get(
       const response =
         await fetch(
         "https://oauth.deriv.com/oauth2/legacy/tokens",
-          }
+          {
             method: "POST",
 
             headers: {
