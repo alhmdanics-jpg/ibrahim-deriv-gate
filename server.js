@@ -152,6 +152,21 @@ app.use(
 
 
 app.get(
+  "/bot",
+  (req, res) => {
+    res.sendFile(
+      path.join(
+        __dirname,
+        "public",
+        "bot",
+        "index.html"
+      )
+    );
+  }
+);
+
+
+app.get(
   "/auth/deriv",
   async (_req, res) => {
 
