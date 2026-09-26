@@ -41,7 +41,7 @@ app.get(
         "bot",
         "index.html"
       ),
-      exists: require("node:fs").existsSync(
+      exists: existsSync(
         path.join(
           __dirname,
           "public",
