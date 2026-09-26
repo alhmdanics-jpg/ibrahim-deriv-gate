@@ -377,7 +377,7 @@ app.get(
 
       const tokenResponse =
         await fetch(
-          "https://oauth.deriv.com/oauth2/token"
+          "https://oauth.deriv.com/oauth2/token",
           {
             method: "POST",
 
