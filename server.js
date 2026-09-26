@@ -659,6 +659,78 @@ app.get("/api/bot-session", async (req, res) => {
   }
 });
 
+app.get("/api/bot-otp", async (req, res) => {
+  try {
+    const session = getSession(req);
+
+    if (!session) {
+      return res.status(401).json({
+        error: "Not authenticated"
+      });
+    }
+
+    const accessToken = session.tokenData?.access_token;
+
+    if (!accessToken) {
+      return res.status(401).json({
+        error: "Missing Deriv access token"
+      });
+    }
+
+    const accountId = req.query.account_id;
+
+    if (!accountId) {
+      return res.status(400).json({
+        error: "Missing account_id"
+      });
+    }
+
+    const response = await fetch(
+      `https://api.derivws.com/trading/v1/options/accounts/${encodeURIComponent(accountId)}/otp`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+
+    const text = await response.text();
+
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch {
+      return res.status(502).json({
+        error: "Invalid response from Deriv OTP API",
+        status: response.status
+      });
+    }
+
+    if (!response.ok) {
+      return res.status(response.status).json(data);
+    }
+
+    const url = data?.data?.url;
+
+    if (!url) {
+      return res.status(502).json({
+        error: "Missing WebSocket URL from Deriv OTP response"
+      });
+    }
+
+    return res.json({
+      url
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      error: "Bot OTP error",
+      details: error.message
+    });
+  }
+});
 
 app.post(
   "/logout",
