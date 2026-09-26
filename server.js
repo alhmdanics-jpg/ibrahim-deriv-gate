@@ -150,14 +150,13 @@ app.use(
   )
 );
 
-
 app.use(
   "/bot",
   express.static(
     path.join(
       __dirname,
-      "bot-src",
-      "dist"
+      "public",
+      "bot"
     )
   )
 );
@@ -168,8 +167,8 @@ app.get(
     res.sendFile(
       path.join(
         __dirname,
-        "bot-src",
-        "dist",
+        "public",
+        "bot",
         "index.html"
       )
     );
