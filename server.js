@@ -648,7 +648,6 @@ app.get("/api/bot-session", async (req, res) => {
     }
 
     return res.json({
-      access_token: accessToken,
       accounts: data
     });
 
