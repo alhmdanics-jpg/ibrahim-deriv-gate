@@ -28,6 +28,29 @@ const SESSION_SECRET =
 const sessions = new Map();
 const pending = new Map();
 
+app.get(
+  "/api/bot-check",
+  (req, res) => {
+    res.json({
+      cwd: process.cwd(),
+      dirname: __dirname,
+      botIndex: path.join(
+        __dirname,
+        "public",
+        "bot",
+        "index.html"
+      ),
+      exists: require("node:fs").existsSync(
+        path.join(
+          __dirname,
+          "public",
+          "bot",
+          "index.html"
+        )
+      )
+    });
+  }
+);
 
 function reqEnv(name, value) {
 
