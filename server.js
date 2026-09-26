@@ -264,7 +264,7 @@ app.get(
 
       url.searchParams.set(
         "scope",
-        "trade"
+        "openid"
       );
 
 
