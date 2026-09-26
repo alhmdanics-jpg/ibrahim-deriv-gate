@@ -174,19 +174,8 @@ app.use(
   )
 );
 
-app.use(
-  "/bot",
-  express.static(
-    path.join(
-      __dirname,
-      "public",
-      "bot"
-    )
-  )
-);
-
 app.get(
-  "/bot",
+  ["/bot", "/bot/", "/bot/index.html"],
   (req, res) => {
     res.sendFile(
       path.join(
@@ -197,6 +186,17 @@ app.get(
       )
     );
   }
+);
+
+app.use(
+  "/bot",
+  express.static(
+    path.join(
+      __dirname,
+      "public",
+      "bot"
+    )
+  )
 );
 
 app.get(
