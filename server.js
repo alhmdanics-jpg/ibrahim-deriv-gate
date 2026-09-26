@@ -240,7 +240,7 @@ app.get(
 
       const url =
         new URL(
-          "https://oauth.deriv.com/oauth2/auth"
+          "https://auth.deriv.com/oauth2/auth"
         );
 
 
@@ -264,7 +264,7 @@ app.get(
 
       url.searchParams.set(
         "scope",
-        "openid"
+        "trade"
       );
 
 
@@ -377,7 +377,7 @@ app.get(
 
       const tokenResponse =
         await fetch(
-          "https://oauth.deriv.com/oauth2/token",
+         "https://auth.deriv.com/oauth2/token",
           {
             method: "POST",
 
