@@ -240,7 +240,7 @@ app.get(
 
       const url =
         new URL(
-          "https://auth.deriv.com/oauth2/auth"
+          "https://oauth.deriv.com/oauth2/auth"
         );
 
 
