@@ -151,20 +151,30 @@ app.use(
 );
 
 
+app.use(
+  "/bot",
+  express.static(
+    path.join(
+      __dirname,
+      "bot-src",
+      "dist"
+    )
+  )
+);
+
 app.get(
   "/bot",
   (req, res) => {
     res.sendFile(
       path.join(
         __dirname,
-        "public",
-        "bot",
+        "bot-src",
+        "dist",
         "index.html"
       )
     );
   }
 );
-
 
 app.get(
   "/auth/deriv",
