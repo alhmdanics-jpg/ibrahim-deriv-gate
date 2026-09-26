@@ -566,6 +566,65 @@ app.get(
 );
 
 
+app.get("/api/bot-session", async (req, res) => {
+  try {
+    const session = getSession(req);
+
+    if (!session) {
+      return res.status(401).json({
+        error: "Not authenticated"
+      });
+    }
+
+    const accessToken = session.tokenData?.access_token;
+
+    if (!accessToken) {
+      return res.status(401).json({
+        error: "Missing Deriv access token"
+      });
+    }
+
+    const response = await fetch(
+      "https://api.derivws.com/trading/v1/options/accounts",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+
+    const text = await response.text();
+
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch {
+      return res.status(502).json({
+        error: "Invalid response from Deriv accounts API",
+        status: response.status
+      });
+    }
+
+    if (!response.ok) {
+      return res.status(response.status).json(data);
+    }
+
+    return res.json({
+      access_token: accessToken,
+      accounts: data
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      error: "Bot session error",
+      details: error.message
+    });
+  }
+});
+
+
 app.post(
   "/logout",
   (req, res) => {
