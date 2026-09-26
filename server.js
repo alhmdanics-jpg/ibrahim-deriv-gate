@@ -119,7 +119,7 @@ function setSession(res, id) {
 
   res.setHeader(
     "Set-Cookie",
-    `ibrahim_session=${id}.${sig(id)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=3600`
+    `ibrahim_session=${id}.${sig(id)}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=3600`
   );
 
 }
