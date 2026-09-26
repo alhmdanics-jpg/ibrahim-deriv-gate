@@ -261,6 +261,11 @@ app.get(
         REDIRECT_URI
       );
 
+      url.searchParams.set(
+  "app_id",
+  "65555"
+);
+
 
       url.searchParams.set(
         "scope",
